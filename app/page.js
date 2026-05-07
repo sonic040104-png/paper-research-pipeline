@@ -4,9 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 
 // ── MOCK callLLM ──────────────────────────────────────────────────────────────
-// ── 실제 API 호출 함수 (paperSearchWorker 전용) ─────────────────────────────
-// 구조화/전략/정규화/필터/handoff는 callLLM(MOCK)을 계속 사용
-async function callLLMReal(system, userMsg) {
+// ── 실제 API 호출 함수 (paperSeclaude-sonnet-4-5-20250929
   const response = await fetch("/api/search", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
