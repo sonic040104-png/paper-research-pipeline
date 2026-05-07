@@ -1,4 +1,4 @@
-"use client";
+"use client"; 
 // ResearchManager v1.0 — 논문 후보 수집 · 정리 · 전달 파이프라인 (MOCK 테스트 버전)
 // 실제 환경에서는 callLLM의 MOCK 블록을 제거하고 API 호출로 교체하세요.
 import { useState, useEffect, useRef } from "react";
@@ -27,8 +27,14 @@ async function callLLMReal(system, userMsg) {
     throw new Error("Invalid Anthropic response: " + JSON.stringify(data).slice(0, 500));
   }
   return data.content
-    .filter(function(b) { return b.type === "text"; })
-    .map(function(b) { return b.text; })
+    .filter(function(b) { return b.type === "text" || b.type === "tool_result"; })
+    .map(function(b) {
+      if (b.type === "text") return b.text;
+      if (b.type === "tool_result" && Array.isArray(b.content)) {
+        return b.content.filter(function(c){ return c.type === "text"; }).map(function(c){ return c.text; }).join("");
+      }
+      return "";
+    })
     .join("");
 }
 
